@@ -1,16 +1,16 @@
-;--------------------------------
+;---------------------------------------------
 ; Gow installer
 ; Web Site: http://gow.sourceforge.net/
 ; Author: Brent R. Matzelle
-; Copyright 2006 Brent R. Matzelle
-;--------------------------------
+; Copyright (c) 2006 - 2010 Brent R. Matzelle
+;---------------------------------------------
 
 
 ;--------------------------------
 ; Constants
 
   !define PRODUCT "Gow"
-  !define VERSION "0.2.0"
+  !define VERSION "0.3.0"
   !define SRC_DIR ".."
 
   Name "${PRODUCT}"
@@ -91,7 +91,7 @@ Function Configure
   IfErrors done
   FileOpen $R1 "$INSTDIR\bin\gow.bat" w
   FileWrite $R1 "@echo off $\r$\n"
-  FileWrite $R1 '$R0 "$INSTDIR\bin\gow.vbs" "C:\Program Files\Gow\bin" %1'
+  FileWrite $R1 '$R0 "$INSTDIR\bin\gow.vbs" "$INSTDIR\bin" %1'
   FileClose $R1
 
   done:

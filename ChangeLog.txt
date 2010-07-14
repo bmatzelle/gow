@@ -1,8 +1,0 @@
------------------------
-Gow Project ChangeLog
------------------------
-
-This contains a listing of all changes between versions of Gow.
-
-Version 1.0.0 (Wed, Apr 20 2006)
---------------------------------
