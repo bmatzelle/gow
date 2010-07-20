@@ -1,6 +1,6 @@
 ;---------------------------------------------
-; Gow installer
-; Web Site: http://gow.sourceforge.net/
+; Gow (Gnu On Windows) installer
+; Web Site: http://wiki.github.com/bmatzelle/gow/
 ; Author: Brent R. Matzelle
 ; Copyright (c) 2006 - 2010 Brent R. Matzelle
 ;---------------------------------------------
@@ -10,12 +10,12 @@
 ; Constants
 
   !define PRODUCT "Gow"
-  !define VERSION "0.3.0"
+  !define VERSION "0.4.0"
   !define SRC_DIR ".."
 
   Name "${PRODUCT}"
   SetCompressor zlib
-  BrandingText "${PRODUCT} Installer - powered by NSIS"
+  BrandingText "${PRODUCT} ${VERSION} Installer - powered by NSIS"
 
   !include "MUI.nsh" ; Include Modern UI
 
@@ -28,7 +28,7 @@
 ;--------------------------------
 ; Pages
 
-  !insertmacro MUI_PAGE_LICENSE "${SRC_DIR}\GPL-License.txt"
+  !insertmacro MUI_PAGE_LICENSE "${SRC_DIR}\licenses\GPL-License.txt"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
 
@@ -99,9 +99,13 @@ FunctionEnd
 
 ; Installs all files
 Function Files
-  ; License, changelog, and readme files
+  ; Copy Readme files
   SetOutPath "$INSTDIR"
   File "${SRC_DIR}\*.txt"
+
+  ; Copy license files
+  SetOutPath "$INSTDIR\licenses"
+  File "${SRC_DIR}\licenses\*.txt"
 
   ; Executables
   SetOutPath "$INSTDIR\bin"
@@ -149,12 +153,14 @@ Function Shortcuts
 
   ; License shortcuts
   SetOutPath "$SMPROGRAMS\$STARTMENU_FOLDER\Licenses"
+  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Licenses\Gow.lnk" \
+                 "$INSTDIR\licenses\Gow-License.txt"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Licenses\GPL.lnk" \
-                 "$INSTDIR\GPL-License.txt"
+                 "$INSTDIR\licenses\GPL-License.txt"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Licenses\NcFTP.lnk" \
-                 "$INSTDIR\NcFTP-License.txt"
+                 "$INSTDIR\licenses\NcFTP-License.txt"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Licenses\Putty.lnk" \
-                 "$INSTDIR\Putty-License.txt"
+                 "$INSTDIR\licenses\Putty-License.txt"
 
   ; General shortcuts
   SetOutPath "$SMPROGRAMS\$STARTMENU_FOLDER"
@@ -162,7 +168,7 @@ Function Shortcuts
                  "$INSTDIR\ChangeLog.txt"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\ReadMe.lnk" \
                  "$INSTDIR\ReadMe.txt"
-  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall ${PRODUCT}.lnk" \
+  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall ${PRODUCT} ${VERSION}.lnk" \
                  "$INSTDIR\Uninstall.exe"
 
   !insertmacro MUI_STARTMENU_WRITE_END
