@@ -16,6 +16,7 @@
   Name "${PRODUCT}"
   SetCompressor zlib
   BrandingText "${PRODUCT} ${VERSION} Installer - powered by NSIS"
+  RequestExecutionLevel admin
 
   !include "MUI.nsh" ; Include Modern UI
 
@@ -48,8 +49,8 @@
   !insertmacro MUI_LANGUAGE "English"
 
   OutFile "${PRODUCT}-${VERSION}.exe" ; Installer file name
-  ShowInstDetails nevershow
-  ShowUninstDetails nevershow
+  ShowInstDetails hide
+  ShowUninstDetails hide
 
 ;--------------------------------
 ; Descriptions
@@ -85,13 +86,18 @@ SectionEnd
 
 ; Configures the installation
 Function Configure
+  DetailPrint "Configuring the installation..."
+
   StrCpy $R0 "cscript //NoLogo"
   nsExec::Exec '$R0 "$INSTDIR\setup\PathSetup.vbs" --path-add "$INSTDIR\bin"'
 
-  IfErrors done
+  SetOutPath $INSTDIR
+
+  ClearErrors
   FileOpen $R1 "$INSTDIR\bin\gow.bat" w
+  IfErrors done
   FileWrite $R1 "@echo off $\r$\n"
-  FileWrite $R1 '$R0 "$INSTDIR\bin\gow.vbs" "$INSTDIR\bin" %1'
+  FileWrite $R1 '$R0 "$INSTDIR\bin\gow.vbs" %1'
   FileClose $R1
 
   done:
@@ -99,6 +105,8 @@ FunctionEnd
 
 ; Installs all files
 Function Files
+  DetailPrint "Installing all files..."
+
   ; Copy Readme files
   SetOutPath "$INSTDIR"
   File "${SRC_DIR}\*.txt"
@@ -110,6 +118,7 @@ Function Files
   ; Executables
   SetOutPath "$INSTDIR\bin"
   File "${SRC_DIR}\bin\*.exe"
+  File "${SRC_DIR}\bin\*.dll"
   File "${SRC_DIR}\bin\*.bat"
   File "${SRC_DIR}\bin\*.vbs"
 
@@ -132,6 +141,8 @@ FunctionEnd
 
 ; Create the necessary registry entries
 Function Registry
+  DetailPrint "Installing registry keys..."
+
   ; Write Registry settings for Add/Remove
   WriteRegStr HKLM "SOFTWARE\${PRODUCT}" "" "$INSTDIR"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}" \
@@ -142,13 +153,41 @@ FunctionEnd
 
 ; Add the Command Prompt Here entry
 Function RegistryCommandPrompt
+  DetailPrint "Installing Command Prompt registry keys"
+
   StrCpy $R0 'Folder\shell\Command Prompt Here ${PRODUCT}'
   WriteRegStr HKCR $R0 "" "Command Prompt &Here"
   WriteRegExpandStr HKCR "$R0\command" "" '"%SystemRoot%\system32\cmd.exe" /k cd /d "%1"'
 FunctionEnd
 
+; Removes any old installations of Gow on the system.  
+Function RemoveOldInstallation
+  DetailPrint "Checking for old Gow installation..."
+
+  ReadRegStr $R0 HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}" \
+                      "UninstallString"
+  StrCmp $R0 "" EndFunction 0
+
+  MessageBox MB_OKCANCEL \
+             "${PRODUCT} is already installed. $\n$\nClick OK to remove the \
+             previous version or Cancel to cancel this upgrade." \
+             IDOK uninstall
+             Abort
+
+uninstall:
+  ; Do not copy the uninstaller to a temp file
+  ExecWait '$R0 _?=$INSTDIR'
+
+  IfErrors 0 EndFunction
+  ; TODO: Perform error checking here
+
+  EndFunction:
+FunctionEnd
+
 ; Set the shortcuts
 Function Shortcuts
+  DetailPrint "Installing Windows shortcuts..."
+
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
 
   ; License shortcuts
@@ -164,8 +203,6 @@ Function Shortcuts
 
   ; General shortcuts
   SetOutPath "$SMPROGRAMS\$STARTMENU_FOLDER"
-  CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\ChangeLog.lnk" \
-                 "$INSTDIR\ChangeLog.txt"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\ReadMe.lnk" \
                  "$INSTDIR\ReadMe.txt"
   CreateShortCut "$SMPROGRAMS\$STARTMENU_FOLDER\Uninstall ${PRODUCT} ${VERSION}.lnk" \
@@ -177,6 +214,10 @@ FunctionEnd
 
 ;--------------------------------
 ; Post installation methods
+
+Function .onInit
+  Call RemoveOldInstallation
+FunctionEnd
 
 Function .onInstSuccess
   Delete "$INSTDIR\Uninstall.exe" ; Delete old uninstaller first
