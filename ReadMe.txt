@@ -3,7 +3,7 @@ Gow - The lightweight alternative to Cygwin
 ------------------------------------------------------------
 
 Homepage: http://wiki.github.com/bmatzelle/gow/
-Author:   Brent R. Matzelle - bmatzelle [at] gmail [dot] com
+Author:   Brent R. Matzelle
 
 ABOUT
 -----
@@ -43,11 +43,11 @@ DOCUMENTATION & Links
 FEEDBACK
 --------
 
-Please send feedback to bmatzelle [at] gmail [dot] com or add an issue to
-the Gow tracker: http://github.com/bmatzelle/gow/issues
+Please submit feedback via the Gow tracker: 
+http://github.com/bmatzelle/gow/issues
 
 Thank you for trying Gow!
 
 --------------------------------------------
-Copyright (c) 2006 - 2010 Brent R. Matzelle
+Copyright (c) 2006 - 2012 Brent R. Matzelle
 --------------------------------------------

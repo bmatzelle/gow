@@ -2,7 +2,7 @@
 ; Gow (Gnu On Windows) installer
 ; Web Site: http://wiki.github.com/bmatzelle/gow/
 ; Author: Brent R. Matzelle
-; Copyright (c) 2006 - 2010 Brent R. Matzelle
+; Copyright (c) 2006 - 2012 Brent R. Matzelle
 ;---------------------------------------------
 
 
@@ -10,11 +10,11 @@
 ; Constants
 
   !define PRODUCT "Gow"
-  !define VERSION "0.4.0"
+  !define VERSION "0.5.0"
   !define SRC_DIR ".."
 
   Name "${PRODUCT}"
-  SetCompressor zlib
+  SetCompressor lzma
   BrandingText "${PRODUCT} ${VERSION} Installer - powered by NSIS"
   RequestExecutionLevel admin
 
