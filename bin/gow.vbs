@@ -90,7 +90,7 @@ End Function
 
 ' Prints out the version of Gow.  
 Function Version()
-  Version = "0.7.0"
+  Version = "0.8.0"
 End Function
 
 

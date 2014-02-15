@@ -2,7 +2,7 @@
 ; Gow (Gnu On Windows) installer
 ; Web Site: http://wiki.github.com/bmatzelle/gow/
 ; Author: Brent R. Matzelle
-; Copyright (c) 2006 - 2012 Brent R. Matzelle
+; Copyright (c) 2006 - 2014 Brent R. Matzelle
 ;---------------------------------------------
 
 
@@ -10,7 +10,7 @@
 ; Constants
 
   !define PRODUCT "Gow"
-  !define VERSION "0.7.0"
+  !define VERSION "0.8.0"
   !define SRC_DIR ".."
 
   Name "${PRODUCT}"
@@ -109,7 +109,7 @@ Function Files
 
   ; Copy Readme files
   SetOutPath "$INSTDIR"
-  File "${SRC_DIR}\*.txt"
+  File "${SRC_DIR}\ReadMe.md"
 
   ; Copy license files
   SetOutPath "$INSTDIR\licenses"
