@@ -171,12 +171,17 @@ Function RemoveOldInstallation
   MessageBox MB_OKCANCEL \
              "${PRODUCT} is already installed. $\n$\nClick OK to remove the \
              previous version or Cancel to cancel this upgrade." \
+             /SD IDOK \
              IDOK uninstall
              Abort
 
 uninstall:
   ; Do not copy the uninstaller to a temp file
-  ExecWait '$R0 _?=$INSTDIR'
+  
+  IfSilent +1 +2
+    StrCpy $R1 "/S" ; Don't break silence when removing old version
+
+  ExecWait '$R0 _?=$INSTDIR $R1'
 
   IfErrors 0 EndFunction
   ; TODO: Perform error checking here
