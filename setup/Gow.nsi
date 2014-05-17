@@ -116,11 +116,8 @@ Function Files
   File "${SRC_DIR}\licenses\*.txt"
 
   ; Executables
-  SetOutPath "$INSTDIR\bin"
-  File "${SRC_DIR}\bin\*.exe"
-  File "${SRC_DIR}\bin\*.dll"
-  File "${SRC_DIR}\bin\*.bat"
-  File "${SRC_DIR}\bin\*.vbs"
+  SetOutPath "$INSTDIR"
+  File /r "${SRC_DIR}\bin"
 
   ; Documentation directory
   SetOutPath "$INSTDIR"
