@@ -118,10 +118,6 @@ Function Files
   SetOutPath "$INSTDIR"
   File /r "${SRC_DIR}\docs"
 
-  ; /etc directory
-  SetOutPath "$INSTDIR\etc"
-  File /r "${SRC_DIR}\etc\*"
-
   ; Setup files
   SetOutPath "$INSTDIR\setup"
   File /r "${SRC_DIR}\setup\*.vbs"
