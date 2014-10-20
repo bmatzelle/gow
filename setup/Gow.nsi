@@ -90,17 +90,6 @@ Function Configure
 
   StrCpy $R0 "cscript //NoLogo"
   nsExec::Exec '$R0 "$INSTDIR\setup\PathSetup.vbs" --path-add "$INSTDIR\bin"'
-
-  SetOutPath $INSTDIR
-
-  ClearErrors
-  FileOpen $R1 "$INSTDIR\bin\gow.bat" w
-  IfErrors done
-  FileWrite $R1 "@echo off $\r$\n"
-  FileWrite $R1 '$R0 "$INSTDIR\bin\gow.vbs" %1'
-  FileClose $R1
-
-  done:
 FunctionEnd
 
 ; Installs all files
