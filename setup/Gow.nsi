@@ -129,6 +129,9 @@ Function Files
   ; Setup files
   SetOutPath "$INSTDIR\setup"
   File /r "${SRC_DIR}\setup\*.vbs"
+
+  ; Bash requires the etc directory to be present.
+  CreateDirectory "$INSTDIR\etc"
 FunctionEnd
 
 ; Starts the installation
