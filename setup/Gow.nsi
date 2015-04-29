@@ -129,6 +129,13 @@ Function Files
   ; Setup files
   SetOutPath "$INSTDIR\setup"
   File /r "${SRC_DIR}\setup\*.vbs"
+
+  ; Bash requires the etc directory to be present.
+  CreateDirectory "$INSTDIR\etc"
+
+  ; Default Bash configuration to set user's home directory, and load user-specific settings.
+  SetOutPath "$INSTDIR"
+  File "${SRC_DIR}\.bashrc"
 FunctionEnd
 
 ; Starts the installation
