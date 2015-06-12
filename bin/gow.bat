@@ -1,5 +1,5 @@
 @if (true == false) @end /*!
-@"%windir%\System32\cscript.exe" //nologo //e:javascript "%~dpnx0" %*
+cscript //nologo //e:javascript "%~dpnx0" %*
 @goto :EOF */
 
 // ------------------------------------------------------------------------
@@ -11,7 +11,7 @@
 // ------------------------------------------------------------------------
 
 var PROGNAME = 'Gow';
-var VERSION = '0.8.1';
+var VERSION = '0.8.0 Portable';
 
 function showHelp()
 {
