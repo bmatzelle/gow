@@ -10,7 +10,7 @@
 ; Constants
 
   !define PRODUCT "Gow"
-  !define VERSION "0.8.1"
+  !define VERSION "0.8.0-2"
   !define SRC_DIR ".."
 
   Name "${PRODUCT}"
@@ -122,11 +122,15 @@ Function Files
   SetOutPath "$INSTDIR\setup"
   File /r "${SRC_DIR}\setup\*.vbs"
 
-  ; Empty etc directory, needed for bash.exe to work
+  ; Bash requires the etc directory to be present.
   IfFileExists "$INSTDIR\etc" FileExists
   CreateDirectory "$INSTDIR\etc"
 
   FileExists:
+
+  ; Default Bash configuration to set user's home directory, and load user-specific settings.
+  SetOutPath "$INSTDIR"
+  File "${SRC_DIR}\.bashrc"
 FunctionEnd
 
 ; Starts the installation
@@ -145,6 +149,8 @@ Function Registry
   WriteRegStr HKLM "SOFTWARE\${PRODUCT}" "" "$INSTDIR"
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}" \
                    "DisplayName" "${PRODUCT}"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}" \
+                   "DisplayVersion" "${VERSION}"				   
   WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT}" \
                    "UninstallString" '"$INSTDIR\Uninstall.exe"'
 FunctionEnd
@@ -169,12 +175,12 @@ Function RemoveOldInstallation
   MessageBox MB_OKCANCEL \
              "${PRODUCT} is already installed. $\n$\nClick OK to remove the \
              previous version or Cancel to cancel this upgrade." \
-             IDOK uninstall
+             /SD IDOK IDOK uninstall
              Abort
 
 uninstall:
   ; Do not copy the uninstaller to a temp file
-  ExecWait '$R0 _?=$INSTDIR'
+  ExecWait '$R0 /S _?=$INSTDIR'
 
   IfErrors 0 EndFunction
   ; TODO: Perform error checking here
