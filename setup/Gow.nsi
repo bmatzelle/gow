@@ -123,7 +123,10 @@ Function Files
   File /r "${SRC_DIR}\setup\*.vbs"
 
   ; Empty etc directory, needed for bash.exe to work
+  IfFileExists "$INSTDIR\etc" FileExists
   CreateDirectory "$INSTDIR\etc"
+
+  FileExists:
 FunctionEnd
 
 ; Starts the installation
