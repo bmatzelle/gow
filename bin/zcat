@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Uncompress files to standard output.
 
 # Copyright (C) 2007 Free Software Foundation

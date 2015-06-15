@@ -1,0 +1,7 @@
+#!/bin/bash
+bindir='/usr/bin'
+case $1 in
+--__bindir) bindir=${2?}; shift; shift;;
+esac
+PATH=$bindir:$PATH
+exec zgrep -F "$@"
