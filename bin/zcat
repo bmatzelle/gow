@@ -1,0 +1,56 @@
+#!/bin/sh
+# Uncompress files to standard output.
+
+# Copyright (C) 2007 Free Software Foundation
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License along
+# with this program; if not, write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+bindir='/usr/bin'
+case $1 in
+--__bindir) bindir=${2?}; shift; shift;;
+esac
+PATH=$bindir:$PATH
+
+version="zcat (gzip) 1.4
+Copyright (C) 2007, 2009-2010 Free Software Foundation, Inc.
+This is free software.  You may redistribute copies of it under the terms of
+the GNU General Public License <http://www.gnu.org/licenses/gpl.html>.
+There is NO WARRANTY, to the extent permitted by law.
+
+Written by Paul Eggert."
+
+usage="Usage: $0 [OPTION]... [FILE]...
+Uncompress FILEs to standard output.
+
+  -f, --force       force; read compressed data even from a terminal
+  -l, --list        list compressed file contents
+  -q, --quiet       suppress all warnings
+  -r, --recursive   operate recursively on directories
+  -S, --suffix=SUF  use suffix SUF on compressed files
+  -t, --test        test compressed file integrity
+  -v, --verbose     verbose mode
+      --help        display this help and exit
+      --version     display version information and exit
+
+With no FILE, or when FILE is -, read standard input.
+
+Report bugs to <bug-gzip@gnu.org>."
+
+case $1 in
+--help)    exec echo "$usage";;
+--version) exec echo "$version";;
+esac
+
+exec gzip -cd "$@"
