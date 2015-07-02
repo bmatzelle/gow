@@ -131,7 +131,8 @@ Function Files
   File /r "${SRC_DIR}\setup\*.vbs"
 
   ; Bash requires the etc directory to be present.
-  CreateDirectory "$INSTDIR\etc"
+  SetOutPath "$INSTDIR\etc"
+  File /r "${SRC_DIR}\etc\.keep.README.md"
 
   ; Default Bash configuration to set user's home directory, and load user-specific settings.
   SetOutPath "$INSTDIR"
