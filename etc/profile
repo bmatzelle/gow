@@ -14,7 +14,7 @@ USERNAME="$( id -un )"
 ORIGINAL_TMP=$TMP
 ORIGINAL_TEMP=$TEMP
 tmp="$( cd "$ORIGINAL_TMP" ; pwd -W )"
-tmep="$( cd "$ORIGINAL_TEMP" ; pwd -W )"
+temp="$( cd "$ORIGINAL_TEMP" ; pwd -W )"
 TMP="/tmp"
 TEMP="/tmp"
 
