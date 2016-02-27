@@ -1,0 +1,62 @@
+# /etc/profile
+
+# Setup some default paths. Note that this order will allow user installed
+# software to override 'system' software.
+# Modifying these default path settings can be done in different ways.
+# To learn more about startup files, refer to your shell's man page.
+PATH="/usr/local/bin:/usr/bin:/bin:${PATH}"
+MANPATH="/usr/local/man:/usr/share/man:/usr/man:${MANPATH}"
+INFOPATH="/usr/local/info:/usr/share/info:/usr/info:${INFOPATH}"
+
+# Set the user id
+USERNAME="$( id -un )"
+
+ORIGINAL_TMP=$TMP
+ORIGINAL_TEMP=$TEMP
+tmp="$( cd "$ORIGINAL_TMP" ; pwd -W )"
+temp="$( cd "$ORIGINAL_TEMP" ; pwd -W )"
+TMP="/tmp"
+TEMP="/tmp"
+
+[ -z "$HOME" ] \
+&& HOME="$USERPROFILE"
+
+# Shell dependent settings (borrowed from Cygwin)
+profile_d ()
+{
+	local file
+	for file in $( export LC_COLLATE=C; echo /etc/profile.d/*.$1 )
+	do
+		[ -e "${file}" ] \
+		&& . "${file}"
+	done
+}
+
+if [ ! "x${BASH_VERSION}" = "x"  ]
+then
+	HOSTNAME="$(/usr/bin/hostname)"
+	profile_d sh
+	[ -f "/etc/bash.bashrc" ] \
+	&& . "/etc/bash.bashrc"
+elif [ ! "x${KSH_VERSION}" = "x" ]
+then
+	typeset -l HOSTNAME="$(/usr/bin/hostname)"
+	profile_d sh
+	PS1=$(print '\033]0;${PWD}\n\033[32m${USER}@${HOSTNAME} \033[33m${PWD/${HOME}/~}\033[0m\n$ ')
+elif [ ! "x${ZSH_VERSION}" = "x" ]
+then
+	HOSTNAME="$(/usr/bin/hostname)"
+	profile_d zsh
+	PS1='(%n@%m)[%h] %~ %% '
+elif [ ! "x${POSH_VERSION}" = "x" ]
+then
+	HOSTNAME="$(/usr/bin/hostname)"
+	PS1="$ "
+else 
+	HOSTNAME="$(/usr/bin/hostname)"
+	profile_d sh
+	PS1="$ "
+fi
+
+export PATH MANPATH INFOPATH USER TMP TEMP PRINTER HOSTNAME PS1 SHELL tmp temp
+

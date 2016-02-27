@@ -1,3 +1,4 @@
 # Gow gitignore file
 
 Gow*.exe
+.bash_history

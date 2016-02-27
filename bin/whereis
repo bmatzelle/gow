@@ -1,0 +1,6 @@
+#!/bin/bash
+
+exec which -a "$@" 2>/dev/null
+
+exit 0
+

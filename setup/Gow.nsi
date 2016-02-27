@@ -10,7 +10,7 @@
 ; Constants
 
   !define PRODUCT "Gow"
-  !define VERSION "0.8.0-1"
+  !define VERSION "0.8.0-2"
   !define SRC_DIR ".."
 
   Name "${PRODUCT}"
@@ -94,13 +94,6 @@ Function Configure
   SetOutPath $INSTDIR
 
   ClearErrors
-  FileOpen $R1 "$INSTDIR\bin\gow.bat" w
-  IfErrors done
-  FileWrite $R1 "@echo off $\r$\n"
-  FileWrite $R1 '$R0 "$INSTDIR\bin\gow.vbs" %1'
-  FileClose $R1
-
-  done:
 FunctionEnd
 
 ; Installs all files
@@ -120,7 +113,6 @@ Function Files
   File "${SRC_DIR}\bin\*.exe"
   File "${SRC_DIR}\bin\*.dll"
   File "${SRC_DIR}\bin\*.bat"
-  File "${SRC_DIR}\bin\*.vbs"
 
   ; Documentation directory
   SetOutPath "$INSTDIR"
@@ -131,7 +123,10 @@ Function Files
   File /r "${SRC_DIR}\setup\*.vbs"
 
   ; Bash requires the etc directory to be present.
+  IfFileExists "$INSTDIR\etc" FileExists
   CreateDirectory "$INSTDIR\etc"
+
+  FileExists:
 
   ; Default Bash configuration to set user's home directory, and load user-specific settings.
   SetOutPath "$INSTDIR"
