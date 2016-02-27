@@ -1,2 +1,1 @@
-@echo off
-cls
+@cls
