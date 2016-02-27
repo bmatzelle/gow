@@ -29,7 +29,7 @@ far lighter than the Cygwin tool, and is extremely useful. "
 FEATURES & BENEFITS
 -------------------
 
-- Ultra light: Small, light subset (about 10 MB) of of very useful UNIX 
+- Ultra light: Small, light subset (about 10 MB) of very useful UNIX 
   binaries that do not have decent installers.
 - Shell window from any directory: Adds a Windows Explorer shell window 
   so that you can right-click on any directory and open a command 
