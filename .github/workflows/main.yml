@@ -1,0 +1,45 @@
+on: [push]
+
+jobs:
+  create_installer:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ 'windows-latest', 'ubuntu-20.04' ]
+
+    steps:
+    - uses: actions/checkout@v1
+      
+    - name: Download EnVar plugin for NSIS
+      uses: carlosperate/download-file-action@v1.0.3
+      with:
+        file-url: https://nsis.sourceforge.io/mediawiki/images/7/7f/EnVar_plugin.zip
+        file-name: envar_plugin.zip
+        location: ${{ github.workspace }}
+
+    - name: Extract EnVar plugin
+      run: 7z x -o"${{ github.workspace }}/NSIS_Plugins" "${{ github.workspace }}/envar_plugin.zip"
+
+    - name: 'Install makensis (apt)'
+      run: sudo apt update && sudo apt install -y nsis nsis-pluginapi
+      if: ${{ matrix.os == 'ubuntu-20.04' }}
+
+    - name: 'Install makensis (homebrew)'
+      run: brew update && brew install makensis
+      if: ${{ matrix.os == 'macos-latest' }}
+
+    - name: 'Set Plugin permissions'
+      run: sudo chown -R $(whoami) /usr/share/nsis/Plugins/
+      if: ${{ matrix.os == 'ubuntu-20.04' }}
+
+    - name: Create nsis installer
+      uses: joncloud/makensis-action@v3.3
+      with:
+        additional-plugin-paths: ${{ github.workspace }}/NSIS_Plugins/Plugins
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: installsig.exe
+        path: installsig.exe
