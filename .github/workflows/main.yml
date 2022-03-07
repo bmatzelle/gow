@@ -36,6 +36,7 @@ jobs:
     - name: Create nsis installer
       uses: joncloud/makensis-action@v3.3
       with:
+        script-file: "/setup/Gow.nsi"
         additional-plugin-paths: ${{ github.workspace }}/NSIS_Plugins/Plugins
 
     - name: Upload artifact
