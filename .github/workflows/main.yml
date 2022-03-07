@@ -39,11 +39,11 @@ jobs:
         script-file: ${{ github.workspace }}/setup/Gow.nsi
         additional-plugin-paths: ${{ github.workspace }}/NSIS_Plugins/Plugins
         
-    - name: Show me what you got
-      run: tree /F
+    - name: Show me what you got (Windows)
+      run: tree .\setup\ /F
       if: ${{ matrix.os == 'windows-latest' }}
 
-    - name: Show me what you got
+    - name: Show me what you got (Linux)
       run: ls
       if: ${{ matrix.os == 'ubuntu-20.04' }}
 
@@ -51,4 +51,4 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         name:  Gow release
-        path:  ${{ github.workspace }}\setup\*.exe
+        path:  ${{ github.workspace }}\setup\Gow-0.8.0-1.exe
