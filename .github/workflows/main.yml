@@ -52,3 +52,13 @@ jobs:
       with:
         name:  Gow release
         path:  ${{ github.workspace }}\setup\Gow-0.8.0-1.exe
+    
+    - name: upload windows artifact
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ${{ github.workspace }}\setup\Gow-0.8.0-1.exe
+        asset_name: Gow-0.8.0-1.exe
+        asset_content_type: application/octet-stream
