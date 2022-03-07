@@ -1,0 +1,73 @@
+on: [push]
+
+jobs:
+  create_installer:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ 'windows-latest', 'ubuntu-20.04' ]
+
+    steps:
+    - uses: actions/checkout@v1
+      
+    - name: Download EnVar plugin for NSIS
+      uses: carlosperate/download-file-action@v1.0.3
+      with:
+        file-url: https://nsis.sourceforge.io/mediawiki/images/7/7f/EnVar_plugin.zip
+        file-name: envar_plugin.zip
+        location: ${{ github.workspace }}
+
+    - name: Extract EnVar plugin
+      run: 7z x -o"${{ github.workspace }}/NSIS_Plugins" "${{ github.workspace }}/envar_plugin.zip"
+
+    - name: 'Install makensis (apt)'
+      run: sudo apt update && sudo apt install -y nsis nsis-pluginapi
+      if: ${{ matrix.os == 'ubuntu-20.04' }}
+
+    - name: 'Install makensis (homebrew)'
+      run: brew update && brew install makensis
+      if: ${{ matrix.os == 'macos-latest' }}
+
+    - name: 'Set Plugin permissions'
+      run: sudo chown -R $(whoami) /usr/share/nsis/Plugins/
+      if: ${{ matrix.os == 'ubuntu-20.04' }}
+
+    - name: Create nsis installer
+      uses: joncloud/makensis-action@v3.3
+      with:
+        script-file: ${{ github.workspace }}/setup/Gow.nsi
+        additional-plugin-paths: ${{ github.workspace }}/NSIS_Plugins/Plugins
+        
+    - name: Show me what you got (Windows)
+      run: tree .\setup\ /F
+      if: ${{ matrix.os == 'windows-latest' }}
+
+#     - name: Show me what you got (Linux)
+#       run: ls
+#       if: ${{ matrix.os == 'ubuntu-20.04' }}
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name:  Gow release
+        path:  ${{ github.workspace }}\setup\Gow-0.8.0-1.exe
+    
+    - name: Upload asset to github release page
+      id: upload-release-asset
+      uses: actions/upload-release-asset@v1
+      with:
+        upload_url: ${{ steps.latest_release_info.outputs.upload_url }}
+        asset_path: ${{ github.workspace }}\setup\Gow-0.8.0-1.exe
+        asset_name: output_${{ steps.latest_release_info.outputs.tag_name }}.exe
+        asset_content_type: application/octet-stream
+    
+#     - name: upload windows artifact
+#       uses: actions/upload-release-asset@v1
+#       env:
+#         GITHUB_TOKEN: ${{ github.token }}
+#       with:
+#         upload_url: ${{ steps.create_release.outputs.upload_url }}
+#         asset_path: ${{ github.workspace }}\setup\Gow-0.8.0-1.exe
+#         asset_name: Gow-0.8.0-1.exe
+#         asset_content_type: application/octet-stream
