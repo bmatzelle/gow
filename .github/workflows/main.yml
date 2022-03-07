@@ -51,4 +51,4 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         name:  Gow release
-        path:  ${{ github.workspace }}/setup/*.exe
+        path:  ${{ github.workspace }}\setup\*.exe
