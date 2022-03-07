@@ -38,6 +38,13 @@ jobs:
       with:
         script-file: ${{ github.workspace }}/setup/Gow.nsi
         additional-plugin-paths: ${{ github.workspace }}/NSIS_Plugins/Plugins
+        
+    - name: Show me what you got (Windows)
+      run: dir
+      if: ${{ matrixos == 'windows-latest' }}
+
+    - name: Show me what you got (all?)
+      run: ls -la
 
     - name: Upload artifact
       uses: actions/upload-artifact@v1.0.0
