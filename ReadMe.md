@@ -1,30 +1,39 @@
-------------------------------------------------------------
-Gow - The lightweight alternative to Cygwin
-------------------------------------------------------------
+<h1 align="center">
+  Gow 
+  <br>
+</h1>
+<h2 align="center">
+  The Lightweight Alternative to Cygwin
+</h3>
+<h4 align="center">
 
-**[Download](https://github.com/bmatzelle/gow/releases)** |
-[Home Page](http://wiki.github.com/bmatzelle/gow/) |
-[FAQ](http://wiki.github.com/bmatzelle/gow/faq)
-
-Author:   Brent R. Matzelle
+[Download](https://github.com/bmatzelle/gow/releases/latest "Find the latest release here") | [Gow Wiki (Home Page)](http://github.com/bmatzelle/gow/wiki "Read the Gow wiki for more details") |  [FAQ](http://github.com/bmatzelle/gow/wiki/faq "Find answers to the most common Gow-related questions")
+<br><br>Author:   Brent R. Matzelle<br><br>
+<img src="https://github.com/poa00/gow/assets/134162878/b4f4c7b4-bdb3-4c84-a7d9-93eddd8e46a3" height=300px width=auto>
+</h4>
 
 ABOUT
 -----
+<div align="justify">
+  
+<strong>Gow</strong> (<strong><ins>G</ins></strong>nu <strong><ins>O</ins></strong>n <strong><ins>W</ins></strong>indows) is the lightweight alternative to Cygwin. Gow's installer  makes 130 extremely useful 
+open source UNIX applications (compiled as native Win32 binaries) conveniently available for immediate use on your Windows system. It is designed to be as small as possible, only ~10 MB. in contrast to Cygwin 
+which can easily exceed 100 MB depending upon options.
+</div>
 
-Gow (Gnu On Windows) is the lightweight alternative to Cygwin. It uses a 
-convenient Windows installer that installs about 130 extremely useful 
-open source UNIX applications compiled as native win32 binaries. It is 
-designed to be as small as possible, about 10 MB, as opposed to Cygwin 
-which can run well over 100 MB depending upon options.
+TESTIMONIALS
+------------
 
 Here are a couple quotes from happy Gow users:
 
-> "Gow is one of the few things that makes Windows bearable/usable"
+<br>
 
-> "I use Gow constantly. It's awesome."
+>**"Gow is one of the few things that makes Windows bearable/usable"**
+>
+> **"I use Gow constantly. It's awesome."**
+>
+>**"I just wanted to let you know that the GOW Suite is simply great - it is far lighter than the Cygwin tool, and is extremely useful."**
 
-> "I just wanted to let you know that the GOW Suite is simply great - it is 
-far lighter than the Cygwin tool, and is extremely useful. "
 
 FEATURES & BENEFITS
 -------------------
@@ -41,13 +50,12 @@ FEATURES & BENEFITS
 - Stable binaries: All commands are kept up to date but also as stable as 
   possible.
 
-
 OTHER LINKS
----------------------
+------------
 
-- [Release Notes](http://wiki.github.com/bmatzelle/gow/change_log)
+- [Release Notes](http://github.com/bmatzelle/gow/wiki/change_log)
 - [Contributing](https://github.com/bmatzelle/gow/wiki/contributing)
-- [Executables list](http://wiki.github.com/bmatzelle/gow/executables_list)
+- [Executables list](https://github.com/bmatzelle/gow/wiki/executables_list)
 - [Unix command reference](http://www.pixelbeat.org/cmdline.html)
 
 FEEDBACK
